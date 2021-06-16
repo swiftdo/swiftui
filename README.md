@@ -8,7 +8,7 @@
 
 * 基础控件
     * 文本
-        * [ ] [Text](Text.md)
+        * [x] [Text](Text.md)
         * [ ] [TextField](TextField.md)
         * [ ] [SecureField](SecureField.md)
     * 图片
