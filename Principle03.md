@@ -1,8 +1,56 @@
 # 关于 some View
 
-在 Swift 5.0 之前我们如果想返回抽象类型一般使用 `Generic Type` 或者 `Protocol`, 使用泛型会显示的暴露一些信息给 `API` 使用者，不是完整的类型抽象
+## 协议
 
-但是使用 `Protocol` 也有几个限制: 泛型返回值在运行时都是一个容器，效率较差，返回值不能调用自身类型的方法，协议不允许拥有关联类型，由于编译时丢失了类型信息，编译器无法推断类型，导致无法使用 `==` 运算符。
+Swift 协议的一个强大之处：
+* 可以作为类型约束；
+* associated type，让协议可以实现一定程度的范型。
+
+但是这两个又是是互相矛盾的，如果协议内部有 associated type（或者协议引用了 Self 类型，因为这样其实也是一种 associated type 行为），这个协议就不能用于类型约束了
+
+```swift
+protocol Fuel { var name:String {get} }
+
+struct EngineOil : Fuel {
+    var name: String = "机油"
+}
+
+
+protocol Vehicle {
+    associatedtype FuelType: Fuel
+    var fuel: FuelType { get }
+    func run()
+}
+
+extension Vehicle {
+    func run() {
+        print("燃烧\(self.fuel.name)跑起来了")
+    }
+}
+
+struct Audi: Vehicle {
+    var fuel: EngineOil = EngineOil()
+}
+
+/// 报错
+func create() -> Vehicle {
+    return Audi()
+}
+```
+
+上例会报错：`Protocol 'Vehicle' can only be used as a generic constraint because it has Self or associated type requirements`
+
+Associated Type**不能直接用作类型约束**
+
+
+
+
+
+## Opaque Type 
+
+在 Swift 5.0 之前我们如果想返回抽象类型一般使用 `Generic Type` 或者 `Protocol`, 使用泛型会显示的暴露一些信息给 `API` 使用者，不是完整的类型抽象。
+
+
 
 这个特性使用 `some` 修饰协议返回值，具有一下特性:
 
@@ -28,7 +76,7 @@ public protocol View {
 }
 ```
 
-这种带有 `associatedtype` 的协议不能作为类型来使用，而只能作为`类型约束`使用：
+这种带有 `associatedtype` 的协议不能作为`类型`来使用，而只能作为`类型约束`使用：
 
 ```swift
 // Error
@@ -91,3 +139,10 @@ var body: some View {
 ```
 
 这是一个`编译期间的特性`，在保证 `associatedtype protocol` 的功能的前提下，使用 `some` 可以抹消具体的类型。这个特性用在 `SwiftUI` 上简化了书写难度，让不同 `View` 声明的语法上更加统一。
+
+## Opaque Type 与 Generic 的关系 / 区别
+
+
+
+
+
