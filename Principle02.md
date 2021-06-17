@@ -185,6 +185,7 @@ print(somes.$someNumber) // true
 
 ## 推荐阅读
 
-* [Property wrappers in Swift](https://www.swiftbysundell.com/articles/property-wrappers-in-swift/)
 * [官方文档: Property Wrappers](https://docs.swift.org/swift-book/LanguageGuide/Properties.html#ID617)
 * [相关提案](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)
+* [Property wrappers in Swift](https://www.swiftbysundell.com/articles/property-wrappers-in-swift/)
+
