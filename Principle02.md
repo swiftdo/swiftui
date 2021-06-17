@@ -39,13 +39,25 @@ struct ConsoleLogged<Value> {
     }
 }
 
-
 struct Bar {
     @ConsoleLogged var x = 0
 }
 
 var bar = Bar()
 bar.x = 1 // Prints 'New value is 1'
+```
+
+被`property wrapper`声明的属性，实际上在存储时的类型是 `ConsoleLogged`，只不过编译器施了一些魔法，让它对外暴露的类型依然是被包装的原来的类型。
+上面的 `Bar` 等同于下方这种写法：
+
+```swift
+struct Bar {
+    private var _x = ConsoleLogged(wrappedValue: 0)
+    var x: Int {
+        get { return _x.wrapperValue }
+        set { _x.wrapperValue = newValue }
+    }
+}
 ```
 
 ## Property Wrapper 使用
