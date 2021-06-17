@@ -1,79 +1,171 @@
 # 关于 propertyWarpper
 
+每次属性更改时，将其新值打印到 `Xcode` 控制台:
+
 ```swift
-// before swift 5.0
-struct User {
-    static var usesTouchID: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "USES_TOUCH_ID")
-        }
+struct Bar {
+    private var _x = 0
+    
+    var x: Int {
+        get { _x }
         set {
-            UserDefaults.standard.set(newValue, forKey: "USES_TOUCH_ID")
-        }
-    }
-    static var isLoggedIn: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "LOGGED_IN")
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "LOGGED_IN")
+            _x = newValue
+            print("New value is \(newValue)") 
         }
     }
 }
 
-// after switft 5.1
+var bar = Bar()
+bar.x = 1 // Prints 'New value is 1'
+```
+
+如果我们继续记录更多这样的属性，需要每个属性都一遍遍复制相同的代码。那么通过如下的做法，就会减少很多拷贝的代码。
+
+```swift
 @propertyWrapper
-struct UserDefault<T> {
-    // 这里的属性 key 和 defaultValue 还有 init 方法都是实际业务中的业务代码
-    let key: String
-    let defaultValue: T
-
-    init(_ key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-        UserDefaults.standard.register(defaults: [key: defaultValue])
+struct ConsoleLogged<Value> {
+    private var value: Value
+    
+    init(wrappedValue: Value) {
+        self.value = wrappedValue
     }
 
-    // wrappedValue 是 @propertyWrapper 必须实现的属性。
-    // 当操作我们包裹的属性时，其具体的set get 方法走这里。
-    var wrappedValue: T {
-        get {
-            return UserDefaults.standard.object(forKey: key) as? T ??  defaultValue
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: key)
+    var wrappedValue: Value {
+        get { value }
+        set { 
+            value = newValue
+            print("New value is \(newValue)") 
         }
     }
 }
 
-struct User {
-    @UserDefault("USES_TOUCH_ID", defaultValue: false)
-    static var usesTouchID: Bool
 
-    @UserDefault("LOGGED_IN", defaultValue: false)
-    var isLoggedIn: Bool
+struct Bar {
+    @ConsoleLogged var x = 0
 }
-let user = User()
-User.usesTouchID = true
-let usesTouchID = User.$usesTouchID
-let isLoggedIn = user.$isLoggedIn
+
+var bar = Bar()
+bar.x = 1 // Prints 'New value is 1'
 ```
 
-实际上属性包装器是在编译时期翻译为一下的代码, 并且编译器禁止使用 `$` 开头的标识符
+## Property Wrapper 使用
+
+有两个要求：
+
+* 必须使用属性 `@propertyWrapper` 进行定义。
+* 它必须具有 `wrappedValue` 属性。
+
+下面就是最简单的包装器:
 
 ```swift
-struct User {
-    static var $usesTouchID = UserDefault<Bool>("USES_TOUCH_ID", defaultValue: false)
-    static var usesTouchID: Bool {
+@propertyWrapper
+struct Wrapper<Value>{
+    var wrappedValue: Value
+}
+
+struct Text {
+    @Wrapper var x: Int = 2
+    @Wrapper(wrappedValue: 10) var y
+}
+
+var t = Text()
+print(t.x) 
+print(t.y)
+```
+
+以上两种声明之间有区别：
+
+1.编译器隐式地调用 `init(wrappedValue:)` 用0初始化x。
+
+2.初始化方法被明确指定为属性的一部分。
+
+
+## 访问属性包装器
+
+在属性包装器中提供额外的行为:
+
+```swift
+@propertyWrapper
+struct Wrapper<Value>{
+    var wrappedValue: Value
+    
+    func log() {
+        print("\(wrappedValue)")
+    }
+}
+```
+
+但如何才能去调用 `log`?
+
+通过定义 `projectedValue` 属性，属性包装器可以公开更多API
+
+> `projectedValue` 的类型没有任何限制
+> `$属性名` 是访问包装器属性
+
+```swift
+@propertyWrapper
+struct Wrapper<Value>{
+    var wrappedValue: Value
+    
+    var projectedValue: Wrapper<Value> { return self }
+    
+    func log() {
+        print("\(wrappedValue)")
+    }
+}
+
+struct Text {
+    @Wrapper var x: Int = 2
+}
+
+var t = Text()
+print(t.x) // 2
+print(t.$x) // Wrapper<Int>(wrappedValue: 2)
+t.$x.log() // 2
+```
+
+另外再举个例子：
+
+```swift
+@propertyWrapper
+struct SmallNumber {
+    private var number: Int
+    
+    var projectedValue: Bool
+    
+    init() {
+        self.number = 0
+        self.projectedValue = false
+    }
+    
+    var wrappedValue: Int {
+        get {return number}
         set {
-            $usesTouchID.value = newValue
-        }
-        get {
-            $usesTouchID.value
+            if newValue > 12 {
+                number = 12
+                projectedValue = true
+            } else {
+                number = newValue
+                projectedValue = false
+            }
         }
     }
 
-    @UserDefault("LOGGED_IN", defaultValue: false)
-    var isLoggedIn: Bool
 }
+
+struct SomeStructure {
+    @SmallNumber var someNumber: Int
+}
+
+var somes = SomeStructure()
+print(somes.someNumber) // 0
+print(somes.$someNumber) // false
+
+somes.someNumber = 14
+print(somes.someNumber) // 12
+print(somes.$someNumber) // true
 ```
+
+## 推荐阅读
+
+* [Property wrappers in Swift](https://www.swiftbysundell.com/articles/property-wrappers-in-swift/)
