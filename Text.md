@@ -1,5 +1,9 @@
 # Text
 
+> 文档：[https://developer.apple.com/documentation/swiftui/text](https://developer.apple.com/documentation/swiftui/text)
+
+显示一行或多行只读文本的视图。
+
 代码：
 
 ```swift
