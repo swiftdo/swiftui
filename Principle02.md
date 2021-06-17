@@ -75,9 +75,8 @@ print(t.y)
 
 以上两种声明之间有区别：
 
-1.编译器隐式地调用 `init(wrappedValue:)` 用0初始化x。
-
-2.初始化方法被明确指定为属性的一部分。
+* `@Wrapper var x: Int = 2` 编译器隐式地调用 `init(wrappedValue:)` 用2初始化x。
+* `@Wrapper(wrappedValue: 10) var y` 初始化方法被明确指定为属性的一部分。
 
 
 ## 访问属性包装器
