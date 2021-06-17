@@ -3,10 +3,16 @@
 ## 协议
 
 Swift 协议的一个强大之处：
+
 * 可以作为类型约束；
 * associated type，让协议可以实现一定程度的范型。
 
-但是这两个又是是互相矛盾的，如果协议内部有 associated type（或者协议引用了 Self 类型，因为这样其实也是一种 associated type 行为），这个协议就不能用于类型约束了
+
+但是这两个又是是互相矛盾的。
+
+### 不能直接用作类型约束
+
+如果协议内部有 associated type（或者协议引用了 Self 类型，因为这样其实也是一种 associated type 行为），这个协议就不能用于类型约束了
 
 ```swift
 protocol Fuel { var name:String {get} }
@@ -32,7 +38,7 @@ struct Audi: Vehicle {
     var fuel: EngineOil = EngineOil()
 }
 
-/// 报错
+/// ❌报错
 func create() -> Vehicle {
     return Audi()
 }
@@ -40,17 +46,43 @@ func create() -> Vehicle {
 
 上例会报错：`Protocol 'Vehicle' can only be used as a generic constraint because it has Self or associated type requirements`
 
-Associated Type**不能直接用作类型约束**
+## 无法使用 == 运算符
 
+由于编译时丢失了类型信息，编译器无法推断类型，导致无法使用 == 运算符
 
+比如有一个协议：
 
+```swift
+protocol MySequence {
+    associatedtype Element
+    var storage: [Element] { get set }
+}
+```
 
+假如我们希望实现一个「比较大小」的方法，我们会怎么定义呢？
+
+```swift
+// ❌
+func are(_ s1: MySequence, lessThan s2: MySequence) -> Bool {
+    // 返回 true / false
+    return true
+}
+```
+
+这应该是大多数人的第一反应，然而这样是通不过编译的。提示的错误就是上面说的：protocol can only be used as a generic constraint because it has Self or associated type requirements.
+
+根据这个错误信息，我们只要这样实现即可：
+
+```swift
+func are<Sequence: MySequence>(_ s1: Sequence, lessThan s2: Sequence) -> Bool {
+    // 返回 true / false
+    return true
+}
+```
+
+想了解更多协议抽象，不妨阅读 [《Protocol Oriented: Swift 协议陷阱之 Associated Type》](https://zhuanlan.zhihu.com/p/80672557)
 
 ## Opaque Type 
-
-在 Swift 5.0 之前我们如果想返回抽象类型一般使用 `Generic Type` 或者 `Protocol`, 使用泛型会显示的暴露一些信息给 `API` 使用者，不是完整的类型抽象。
-
-
 
 这个特性使用 `some` 修饰协议返回值，具有一下特性:
 
@@ -138,11 +170,32 @@ var body: some View {
 }
 ```
 
-这是一个`编译期间的特性`，在保证 `associatedtype protocol` 的功能的前提下，使用 `some` 可以抹消具体的类型。这个特性用在 `SwiftUI` 上简化了书写难度，让不同 `View` 声明的语法上更加统一。
+这是一个`编译期间的特性`，在保证 `associatedtype protocol` 的功能的前提下，使用 `some` 可以抹消具体的类型。
+这个特性用在 `SwiftUI` 上简化了书写难度，让不同 `View` 声明的语法上更加统一。
 
 ## Opaque Type 与 Generic 的关系 / 区别
 
+Opaque Type 和 Generic 都解决了协议无法作为类型约束的问题，但它们解决问题的方式是截然相反的，或者说它们的思想是有区别的。
 
+**Generic 让调用者决定参数或者返回值的类型**, 比如下面的 `drive(_:)` 方法，定义的时候只规定了参数必须遵从 `Vehicle`, 并没有具体安排那种类型。
+具体是什么类型，完全由传入的变量决定：
 
+```swift
 
+func drive<V: Vehicle>(_ vehicle: V) {
+    // ...
+}
 
+let car = Audi()
+drive(car)
+```
+
+而 **Opaque Type 是让方法本身决定返回的类型**. 比如下面的 `getVehicle()` 方法，调用者完全不知道方法会返回什么类型的值，只知道它一定遵从 `Vehicle`。
+
+```swift
+func getVehicle() -> some Vehicle {
+    someone.vehicle
+}
+
+let car = getVehicle()
+```
