@@ -24,3 +24,7 @@ VStack {
     )
 }
 ```
+
+## 参阅
+
+* [Function Builders in Swift and SwiftUI](https://www.vadimbulavin.com/swift-function-builders-swiftui-view-builder/)
