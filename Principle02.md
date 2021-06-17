@@ -115,6 +115,12 @@ struct Wrapper<Value>{
 
 struct Text {
     @Wrapper var x: Int = 2
+    
+    func foo() {
+        print(x) // 'wrappedValue'
+        print(_x) // wrapper type itself, 私有的
+        print($x) // projectedValue
+    }
 }
 
 var t = Text()
@@ -123,7 +129,7 @@ print(t.$x) // Wrapper<Int>(wrappedValue: 2)
 t.$x.log() // 2
 ```
 
-另外再举个例子：
+## 再举个例子：
 
 ```swift
 @propertyWrapper
