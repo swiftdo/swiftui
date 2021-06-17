@@ -20,7 +20,7 @@
         * [ ] [TextField](TextField.md)
         * [ ] [SecureField](SecureField.md)
     * 图片
-        * [ ] [Image](Image.md)
+        * [x] [Image](Image.md)
         * [ ] [WebImage](WebImage.md)
     * 按钮
         * [ ] [Button](Button.md)
