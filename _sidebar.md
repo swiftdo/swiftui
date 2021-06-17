@@ -90,4 +90,9 @@
     * 自定义手势
         * [AnyGesture](AnyGesture.md)
 
+* 其他
+    * [谈谈 ViewModifier](ViewModifier.md)
+    * [谈谈 GeometryReader](GeometryReader.md)
+    * [谈谈 PreferenceKey](PreferenceKey.md)
+
 * Combine
