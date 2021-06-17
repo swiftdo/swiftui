@@ -6,6 +6,14 @@
 
 ## 文档进度
 
+* 原理篇
+    * [x] [单表达式隐式返回值](Principle01.md)
+    * [x] [关于 propertyWarpper](Principle02.md)
+    * [x] [关于 some View](Principle03.md)
+    * [x] [关于 functionBuilder](Principle05.md)
+    * [x] [关于 ViewBuilder](Principle04.md)
+    * [x] [@ 属性概要](Principle06.md)
+
 * 基础控件
     * 文本
         * [x] [Text](Text.md)
@@ -88,6 +96,9 @@
         * [ ] [ExclusiveGesture](ExclusiveGesture.md)
     * 自定义手势
         * [ ] [AnyGesture](AnyGesture.md)
-
+* 其他
+    * [x] [谈谈 ViewModifier](ViewModifier.md)
+    * [x] [谈谈 GeometryReader](GeometryReader.md)
+    * [x] [谈谈 PreferenceKey](PreferenceKey.md)
 * Combine
 
