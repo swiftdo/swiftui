@@ -1,9 +1,5 @@
 # Text
 
-> 文档：[https://developer.apple.com/documentation/swiftui/text](https://developer.apple.com/documentation/swiftui/text)
-
-显示一行或多行只读文本的视图。
-
 代码：
 
 ```swift
@@ -132,7 +128,7 @@ Text("Hello, World! welcome to OldBirds ,nice to miss you! see you again ~~ ")
 ![](http://blog.loveli.site/tuc/20210616204807.png ':size=240')
 
 
-### 旋轉文字
+### 旋转文字
 
 * 2D 旋转
 
