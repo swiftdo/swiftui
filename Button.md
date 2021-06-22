@@ -1,6 +1,10 @@
 # Button
 
 > 文档：[https://developer.apple.com/documentation/swiftui/button](https://developer.apple.com/documentation/swiftui/button)
+>
+> 环境：Xcode Beta，Swift5.5
+
+## 概览
 
 在触发时执行操作的控件。
 
@@ -37,7 +41,7 @@ Button(action: {
 .cornerRadius(5)
 ```
 
-为了更好的运用Button，下面我们将一起实现一些常见的功能：
+为了更好的运用 Button，下面我们将一起来实现一些常见的效果：
 
 * 如何创建一个简单的按钮并处理用户的选择？
 * 如何自定义按钮的背景、填充和字体？
@@ -45,6 +49,13 @@ Button(action: {
 * 如何创建同时包含图像和文本的按钮？
 * 如何创建具有渐变背景和阴影的按钮？
 * 如何创建全角按钮？
+
+## 如何创建一个简单的按钮并处理用户的选择？
+## 如何自定义按钮的背景、填充和字体？
+## 如何给按钮添加边框？
+## 如何创建同时包含图像和文本的按钮？
+## 如何创建具有渐变背景和阴影的按钮？
+## 如何创建全角按钮？
 
 ## 推荐阅读
 
