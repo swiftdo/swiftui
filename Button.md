@@ -50,8 +50,49 @@ Button(action: {
 * 如何创建具有渐变背景和阴影的按钮？
 * 如何创建全角按钮？
 
+
 ## 如何创建一个简单的按钮并处理用户的选择？
+
+使用 SwiftUI 创建按钮非常容易。基本上，您可以使用下面的代码片段来创建一个按钮：
+
+```swift
+struct CasePage: View {
+    @State var change = false;
+
+    var body: some View {
+        VStack {
+            Text(change ? "欢迎关注 OldBirds 公众号": "OldBirds")
+            .font(.title)
+            
+            Button("welcome") {
+                self.change.toggle()
+            }.padding()
+        }
+    }
+}
+```
+
+![](http://blog.loveli.site/tuc/111ee.gif ':size=300')
+
+
 ## 如何自定义按钮的背景、填充和字体？
+
+```swift
+Button(action: {
+    self.change.toggle()
+    
+}, label: {
+    Text("Hello World")
+        .padding()
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .font(.title)
+        
+}).padding()
+```
+
+![](http://blog.loveli.site/tuc/111ee002.gif ':size=300')
+
 ## 如何给按钮添加边框？
 ## 如何创建同时包含图像和文本的按钮？
 ## 如何创建具有渐变背景和阴影的按钮？
