@@ -48,7 +48,7 @@ Button(action: {
 * 如何给按钮添加边框？
 * 如何创建同时包含图像和文本的按钮？
 * 如何创建具有渐变背景和阴影的按钮？
-* 如何创建全角按钮？
+* 如何创建圆角按钮且添加外圆角边框？
 
 
 ## 如何创建一个简单的按钮并处理用户的选择？
@@ -132,10 +132,70 @@ Button(action: {
 
 ## 如何创建同时包含图像和文本的按钮？
 
+```swift
+Button(action: {
+    self.change.toggle()
+}, label: {
+    HStack(content: { 
+        Image(systemName: "trash")
+        Text("Hello World")
+            .foregroundColor(.black)
+            .font(.title)
+    })
+    .padding()
+    .background(Color.purple)
+    .border(Color.red, width: 5)
+    
+})
+```
+
+![](http://blog.loveli.site/tuc/111ee005.gif ':size=300')
 
 ## 如何创建具有渐变背景和阴影的按钮？
 
-## 如何创建全角按钮？
+```swift
+Button(action: {
+    self.change.toggle()
+}, label: {
+    HStack(content: {
+        Image(systemName: "trash")
+            .font(.title)
+        Text("Hello World")
+            .font(.title)
+    })
+    .padding()
+    .foregroundColor(.white)
+    .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]), startPoint: .leading, endPoint: .trailing))
+    .cornerRadius(40)
+})
+```
+
+![](http://blog.loveli.site/tuc/111ee006.gif ':size=300')
+
+## 如何创建圆角按钮且添加外圆角边框？
+
+```swift
+ 
+Button(action: {
+    self.change.toggle()
+}, label: {
+    HStack(content: {
+        Image(systemName: "trash")
+            .font(.title)
+        Text("Hello World")
+            .font(.title)
+    })
+    .padding()
+    .foregroundColor(.white)
+    .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]), startPoint: .leading, endPoint: .trailing))
+//  .border(Color.red, width: 5) // 不行
+    .cornerRadius(40)
+    .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.red, lineWidth: 5))
+})
+```
+
+![](http://blog.loveli.site/tuc/111ee007.gif ':size=300')
+
 
 ## 推荐阅读
 
