@@ -2,7 +2,7 @@
 
 > 文档：[https://developer.apple.com/documentation/swiftui/button](https://developer.apple.com/documentation/swiftui/button)
 >
-> 环境：Xcode Beta，Swift5.5
+> 环境：Xcode 12.5.1，Swift5.4
 
 ## 概览
 
@@ -195,7 +195,6 @@ Button(action: {
 ```
 
 ![](http://blog.loveli.site/tuc/111ee007.gif ':size=300')
-
 
 ## 推荐阅读
 
