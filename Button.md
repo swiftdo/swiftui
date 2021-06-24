@@ -93,9 +93,48 @@ Button(action: {
 
 ![](http://blog.loveli.site/tuc/111ee002.gif ':size=300')
 
+特别强调：modifier 的顺序非常重要，假设我们把 `padding` 移动，不在 `background` 的前面，效果是不一样的。
+
+```swift
+Button(action: {
+    self.change.toggle()
+    
+}, label: {
+    Text("Hello World")
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .font(.title)
+        .padding()
+}).padding()
+```
+
+![](http://blog.loveli.site/tuc/111ee003.gif ':size=300')
+
+
 ## 如何给按钮添加边框？
+
+```swift
+Button(action: {
+    self.change.toggle()
+}, label: {
+    Text("Hello World")
+        .padding()
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .font(.title)
+        .border(Color.red, width: 5)
+})
+```
+
+![](http://blog.loveli.site/tuc/111ee004.gif ':size=300')
+
+
+
 ## 如何创建同时包含图像和文本的按钮？
+
+
 ## 如何创建具有渐变背景和阴影的按钮？
+
 ## 如何创建全角按钮？
 
 ## 推荐阅读
