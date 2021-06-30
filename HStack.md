@@ -42,7 +42,7 @@ HStack 的定义：
 
 HStack 构造函数的参数说明：
 
-* `spacing: CGFloat?`，设置子视图之前的空隙
+* `spacing: CGFloat?`，设置子视图之间的空隙
 * `alignment: VerticalAlignment`, 子视图的垂直对齐方式
 
 spacing 比较容易设置和理解，下面着重介绍下 alignment。
