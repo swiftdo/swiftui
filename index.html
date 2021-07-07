@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -9,8 +10,11 @@
   <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"> -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/buble.css">
+
 </head>
+
 <body>
+  <script src="//cdn.jsdelivr.net/npm/docsify-pangu/lib/pangu.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-edit-on-github"></script>
   <nav>
     <a href="/">总站点</a>
@@ -21,7 +25,7 @@
       name: 'SwiftUI 指南',
       el: '#main',
       repo: 'swiftdo/swiftui',
-      maxLevel: 4, 
+      maxLevel: 4,
       loadSidebar: true,
       search: {
         maxAge: 86400000, // 过期时间，单位毫秒，默认一天
@@ -31,11 +35,11 @@
         depth: 2,
         hideOtherSidebarContent: false, // 是否隐藏其他侧边栏内容
       },
-      count:{
-        countable:true,
-        fontsize:'0.9em',
-        color:'rgb(90,90,90)',
-        language:'chinese'
+      count: {
+        countable: true,
+        fontsize: '0.9em',
+        color: 'rgb(90,90,90)',
+        language: 'chinese'
       },
       plugins: [
         EditOnGithubPlugin.create(
@@ -65,4 +69,5 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
   <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
 </body>
+
 </html>
