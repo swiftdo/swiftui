@@ -106,3 +106,114 @@ struct ContentView: View {
 * `.center`: 子视图局中对齐
 * `.trailing`: 子视图局右对齐
 
+## 使 VStack 填充屏幕的宽度
+
+有这么个案例：
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        VStack(alignment: .leading) {
+          Text("标题")
+            .font(.title)
+
+          Text("内容")
+            .lineLimit(nil)
+            .font(.body)
+
+          Spacer()
+        }
+        .background(Color.red)
+    }
+}
+```
+
+显示效果：
+
+![](http://blog.loveli.site/mweb/16256254805070.jpg)
+
+标签/文本组件不需要全宽，如何让 VStack 填充屏幕的宽度？
+
+### 方案一：设置 frame
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        VStack(alignment: .leading) {
+          Text("标题")
+            .font(.title)
+            .background(Color.yellow)
+
+          Text("内容")
+            .lineLimit(nil)
+            .font(.body)
+            .background(Color.blue)
+        }
+        .frame(
+          maxWidth: .infinity,
+          maxHeight: .infinity,
+          alignment: .topLeading
+        )
+        .background(Color.red)
+    }
+}
+```
+
+![](http://blog.loveli.site/mweb/16256261587910.jpg)
+
+除了通过设置尺寸为 `.infinity`, 还可以通过 `GeometryReader` 设置尺寸：
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        GeometryReader { geometryProxy in
+            VStack(alignment: .leading) {
+              Text("标题")
+                .font(.title)
+                .background(Color.yellow)
+
+              Text("内容")
+                .lineLimit(nil)
+                .font(.body)
+                .background(Color.blue)
+            }
+            .frame(
+                maxWidth: geometryProxy.size.width,
+                maxHeight: geometryProxy.size.height,
+                alignment: .topLeading
+            )
+        }
+        .background(Color.red)
+    }
+}
+```
+
+![](http://blog.loveli.site/mweb/16256264169659.jpg)
+
+### 结合 HStack 和 Spacer
+
+```swift
+struct ContentView: View {
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+              Text("标题")
+                .font(.title)
+                .background(Color.yellow)
+
+              Text("内容")
+                .lineLimit(nil)
+                .font(.body)
+                .background(Color.blue)
+                
+                Spacer()
+            }
+
+            Spacer()
+        }.background(Color.red)
+    }
+}
+```
+
+![](http://blog.loveli.site/mweb/16256266738969.jpg)
