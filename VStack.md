@@ -98,7 +98,7 @@ struct ContentView: View {
 }
 ```
 
-![](http://blog.loveli.site/mweb/Screen Shot 2021-07-07 at 9.22.08 AM.png)
+![](https://blog.loveli.site/mweb/Screen%20Shot%202021-07-07%20at%209.22.08%20AM.png)
 
 通过预览效果，可以比较容易发现 `alignment` 间的差异。
 
