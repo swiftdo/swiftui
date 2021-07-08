@@ -190,7 +190,7 @@ struct ContentView: View {
 
 ![](http://blog.loveli.site/mweb/16256264169659.jpg)
 
-### 结合 HStack 和 Spacer
+### 方案二：结合 HStack 和 Spacer
 
 ```swift
 struct ContentView: View {
