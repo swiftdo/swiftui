@@ -52,7 +52,7 @@
 
   - List
 
-    - [ ] [List](List.md)
+    - [x] [List](List.md)
     - [ ] [ScrollView](ScrollView.md)
     - [ ] [ForEach](ForEach.md)
 
