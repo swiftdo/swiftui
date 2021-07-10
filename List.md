@@ -20,7 +20,7 @@ struct LearnPage: View {
 }
 ```
 
-![-w1060](http://blog.loveli.site/mweb/16258380288707.jpg)
+![-w1060](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/87728e8f02aa4886aaed9cb29813fca8~tplv-k3u1fbpfcp-zoom-1.image)
 
 
 List 可以是单个组件，也可以是组合组件，表单里的内容是可以混搭的。以下示例中列表的前几行都由图像和文本组件组成的 `HStack`，最后一行是单个 `Text`：
@@ -54,7 +54,7 @@ struct LearnPage: View {
     }
 }
 ```
-![-w1065](http://blog.loveli.site/mweb/16258391049764.jpg)
+![-w1065](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2fabd5119bbb452aa58c23c821d928a6~tplv-k3u1fbpfcp-zoom-1.image)
 
 
 ## 创建一个动态列表
@@ -110,7 +110,7 @@ var body: some View {
 }
 ```
 
-![-w1069](http://blog.loveli.site/mweb/16258424295348.jpg)
+![-w1069](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b21b0575220c4a3983c2ae492f5d830a~tplv-k3u1fbpfcp-zoom-1.image)
 
 ## 加入分区
 
@@ -137,7 +137,7 @@ var body: some View {
 }
 ```
 
-![-w1088](http://blog.loveli.site/mweb/16258429083232.jpg)
+![-w1088](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8d2eb03cd7bd4986af9088aa7d047cc9~tplv-k3u1fbpfcp-zoom-1.image)
 
 如果还想进一步美化页面，我们可以给页面添加标题：
 
@@ -163,11 +163,11 @@ var body: some View {
 }
 ```
 
-![-w1091](http://blog.loveli.site/mweb/16258431849466.jpg)
+![-w1091](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0803632df5e84324b12c0e7364ddc40c~tplv-k3u1fbpfcp-zoom-1.image)
 
 ## 让列表可编辑
 
-为了进一步提现列表的动态性，打算添加待办清单的侧滑删除、移动功能。那么如何实现？
+为了进一步体现列表的动态性，打算添加待办清单的侧滑删除、移动功能。那么如何实现？
 
 SwiftUI 提供了非常便利的方案：
 
@@ -216,10 +216,47 @@ struct LearnPage: View {
 }
 ```
 
-![-w1048](http://blog.loveli.site/mweb/16258445771255.jpg)
+![-w1048](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e829891bb9b847c1bdd1f4fc77ab54c5~tplv-k3u1fbpfcp-zoom-1.image)
 
 * 将 listData 添加 @State 装饰，这样数据变化，会驱动视图更新
 * 添加 `.onDelete`，收到已删除项目的索引，从数组中删除相应的元素
 * 添加 `.onMove`，收到移动项目的源和目标索引，相应地重新排序数组
 
+运行代码，我们会发现一个问题，侧滑可以删除，但是项目移动无法触发。那是因为只有当用户进入**编辑模式**时才能移动项目。所以我们需要在导航栏中添加一个 `EditButton`。当用户点击 `Edit` 时，才可以继续移动项目：
 
+```swift
+var body: some View {
+NavigationView {
+    List {
+        Section(header: Text("待办事项")) {
+            ForEach(listData) { item in
+                HStack{
+                    Image(systemName: item.imgName)
+                    Text(item.task)
+                }
+            }
+            .onDelete(perform: deleteItem)
+            .onMove(perform: moveItem)
+        }
+        Section(header: Text("其他内容")) {
+            Text("Hello World")
+        }
+    }
+    .toolbar { EditButton() } // 这里实现添加
+    .listStyle(GroupedListStyle())
+    .navigationTitle(Text("待办清单"))
+}
+```
+
+![111ee0710](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/42186b81c8354617935ad56d81d9bc8f~tplv-k3u1fbpfcp-zoom-1.image)
+
+至此，已经完成了我们想要实现的功能。当然这个小 demo 还存在很多不完善的地方，比如：
+
+* 添加的 `EditButton` 的文本是否能显示成中文
+* 数据能否本地化，不然每次打开 App，又恢复了初始的数据
+* 能否添加任务的创建和修改功能
+* ...
+
+是的，这些功能能都会后续进行完善。毕竟到此也才到本系列的第10篇文章，还有很多路要走，很多坑要挖。待书写完整个系列，相信它会是一个非常完善的应用。
+
+后续的文章的关联性会越来越强，同时也将更具实操性，喜欢的读者，记得关注！
