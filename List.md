@@ -226,37 +226,28 @@ struct LearnPage: View {
 
 ```swift
 var body: some View {
-NavigationView {
-    List {
-        Section(header: Text("待办事项")) {
-            ForEach(listData) { item in
-                HStack{
-                    Image(systemName: item.imgName)
-                    Text(item.task)
-                }
-            }
-            .onDelete(perform: deleteItem)
-            .onMove(perform: moveItem)
-        }
-        Section(header: Text("其他内容")) {
-            Text("Hello World")
-        }
-    }
-    .toolbar { EditButton() } // 这里实现添加
-    .listStyle(GroupedListStyle())
-    .navigationTitle(Text("待办清单"))
+  NavigationView {
+      List {
+          Section(header: Text("待办事项")) {
+              ForEach(listData) { item in
+                  HStack{
+                      Image(systemName: item.imgName)
+                      Text(item.task)
+                  }
+              }
+              .onDelete(perform: deleteItem)
+              .onMove(perform: moveItem)
+          }
+          Section(header: Text("其他内容")) {
+              Text("Hello World")
+          }
+      }
+      .toolbar { EditButton() } // 这里实现添加
+      .listStyle(GroupedListStyle())
+      .navigationTitle(Text("待办清单"))
+  }
 }
 ```
 
 ![111ee0710](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/42186b81c8354617935ad56d81d9bc8f~tplv-k3u1fbpfcp-zoom-1.image)
 
-至此，已经完成了我们想要实现的功能。当然这个小 demo 还存在很多不完善的地方，比如：
-
-* 添加的 `EditButton` 的文本是否能显示成中文
-* 数据能否本地化，不然每次打开 App，又恢复了初始的数据
-* 能否添加任务的创建和修改功能
-* ...
-
-是的，这些功能能都会后续进行完善。毕竟到此也才到本系列的第10篇文章，还有很多路要走，很多坑要挖。待书写完整个系列，相信它会是一个非常完善的应用。
-
-后续的文章的关联性会越来越强，同时也将更具实操性，喜欢的读者，记得关注！
