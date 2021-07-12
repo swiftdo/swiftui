@@ -30,7 +30,7 @@
     - [ ] [ItemBasedPopUpButton](ItemBasedPopUpButton.md)
     - [ ] [NavigationButton](NavigationButton.md)
     - [ ] [PresentationButton](PresentationButton.md)
-    - [ ] [EditButton](EditButton.md)
+    - [x] [EditButton](EditButton.md)
     - [ ] [PasteButton](PasteButton.md)
   - 选择器
     - [ ] [Picker](Picker.md)
