@@ -5,7 +5,7 @@
 > 官方文档：[https://developer.apple.com/documentation/swiftui/foreach](https://developer.apple.com/documentation/swiftui/foreach)
 
 
-在待办清单案例中，涉及`ForEach`使用的代码如下：
+案例中涉及`ForEach`使用的代码如下：
 
 ```swift
 /// 需要实现 Identifiable 协议
