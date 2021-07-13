@@ -53,4 +53,12 @@ var body: some View {
 
 ## `ForEach` 的使用方法
 
+### Range
+
+### indices
+
+### id & Hashable
+
+### Identifiable
+
 ## `TodoItem`为啥要实现 Identifiable?
