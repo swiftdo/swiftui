@@ -10,9 +10,9 @@ public struct ForEach<Data, ID, Content> where Data : RandomAccessCollection, ID
 }
 ```
 
-在待办清单案例中，我们有用到`ForEach`这个视图。ForEach 将集合的东西生成一个个 View，然后再组合成一个 View。大大简化了相似代码，同时也解决了`ViewBuilder`参数个数限制问题。它在`SwiftUI`开发中非常常见，所以今天一起深入挖掘下 `ForEach`。
+在待办清单案例中，我们有用到`ForEach`这个视图。ForEach 将集合的东西生成一个个 View，然后再组合成一个 View。大大简化了相似代码，同时也解决了`ViewBuilder`参数个数限制问题。它在`SwiftUI`开发中非常常见，所以今天一起深入挖掘下 `ForEach` 相关知识。
 
-案例中涉及`ForEach`使用的代码如下：
+待办清单案例中涉及`ForEach`使用的代码如下：
 
 ```swift
 /// 需要实现 Identifiable 协议
@@ -55,15 +55,15 @@ var body: some View {
 
 我们将围绕下面两个问题，进行对 `ForEach` 的深入了解：
 
-1. `ForEach` 有哪些使用方法？
+1. `ForEach` 有哪些初始化方法？
 2. `TodoItem` 为什么要实现`Identifiable` 协议？
 
-## `ForEach` 的使用方法
+## `ForEach` 的初始化方法
 
-ForEach 是一个从识别的数据集合中创建视图。它支持三种初始化方式：
-* range
-* 对集合元素实现 `Identifiable` 协议的集合
-* 对集合元素可以被标志，但没有实现 `Identifiable` 的集合
+ForEach 是一个从元素可识别的数据集合中创建视图。它支持三种类型初始化方式：
+* 通过 range 迭代
+* 对由实现 `Identifiable` 的元素组成的集合迭代
+* 对由可被标志，但没有实现 `Identifiable` 的元素组成的集合迭代
 
 ### range
 
@@ -122,7 +122,7 @@ struct ContentView: View {
 
 ![-w1283](http://blog.loveli.site/mweb/16262505795215.jpg)
 
-点击按钮，列表没有反应。我们然后将代码运行到模拟器，点击按钮，在控制台输出错误：
+点击按钮，列表没有反应。我们然后将代码运行到模拟器，点击按钮，在控制台输出如下错误：
 
 ```sh
 ForEach<Range<Int>, Int, Text> count (6) != its initial count (5). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!
@@ -142,7 +142,7 @@ ForEach<Range<Int>, Int, Text> count (6) != its initial count (5). `ForEach(_:co
 
 从报错信息可知，我们必须要将数组的元素实现`Identifiable`协议。
 
-如果数组的元素是普通类型，比如`String`也会报错：
+数组的元素如果是普通类型，比如`String`也会报错：
 
 ![-w628](http://blog.loveli.site/mweb/16262515237081.jpg)
 
@@ -214,11 +214,15 @@ struct ContentView: View {
 ![-w1365](http://blog.loveli.site/mweb/16262557143716.jpg)
 
 
-我们让 `TodoItem` 不实现 `Identifiable`, 用`\.task`传递给 id。我们希望点击添加按钮的时候，列表会同步刷新，且新增的图标是个`月亮`。但是事情并没有顺从你的心意：
+我们让`TodoItem`不实现`Identifiable`, 用`\.task`传递给 id。我们希望点击添加按钮的时候，列表会同步刷新，且新增的图标是个`月亮`。但是事情并没有顺从你的心意：
 
 ![hello-swiftui](http://blog.loveli.site/mweb/hello-swiftui.gif)
 
-不知道你是否发现，新增的视图的 icon 并不是月亮。而是用了第一个`TodoItem(task: "写一篇SwiftUI文章", imgName: "pencil.circle")`的 imgName。
+你应该也发现了，新增的视图的 icon 并不是月亮。而是用了第一个`TodoItem(task: "写一篇SwiftUI文章", imgName: "pencil.circle")`的 `pencil.circle`，其实不仅仅是图标，整个显示都跟第一个视图一样的。因为无法区分这两个 TodoItem，所以就以最开始出现的视图重复，发生了错乱。
+
+## 总结
+
+ForEach 的使用还是比较简单的，有三种初始化方式，通过range 迭代的时候，记得保证集合是个常量。第二种通过 Identifiable 保证元素唯一，通常做法用UUID 作为id。第三种，通过指定KeyPath，需要保证实现了 Hashable，且最好做到唯一，不然显示会错乱。
 
 
 

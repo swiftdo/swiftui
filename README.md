@@ -54,7 +54,7 @@
 
     - [x] [List](List.md)
     - [ ] [ScrollView](ScrollView.md)
-    - [ ] [ForEach](ForEach.md)
+    - [x] [ForEach](ForEach.md)
 
   - Container Views
     - [ ] [Group](Group.md)
