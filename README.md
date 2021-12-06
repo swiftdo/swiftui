@@ -2,7 +2,7 @@
 
 ## 在线文档阅读
 
-[https://oldbird.run/swiftui/#/](https://oldbird.run/swiftui/#/)
+[https://oldbird.run/swiftui/#/](https://oldbird.run/swift/swiftui/)
 
 ## 文档进度
 
